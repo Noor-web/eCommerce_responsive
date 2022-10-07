@@ -109,7 +109,7 @@ h4 {
 
 .column {
 	margin-left: -0.938em;
-	margin-right: 0.938em;
+	margin-right: -0.938em;
 }
 
 .column .row {
@@ -118,7 +118,7 @@ h4 {
 
 .flexwrap {
 	display: flex;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 }
 
 .flexcenter {
@@ -240,7 +240,7 @@ h4 {
 
 
 /*01 header*/
-header li > a {
+:where(.off-canvas, header) li > a {
 	display: flex;
 	position: relative;
 	line-height: inherit;
@@ -275,11 +275,11 @@ header-top*/
 	display: none;
 }
 
-.header-top .right ul ul li a {
+:where(.header-top, .thetop-nav) .right ul ul li a {
 	padding: 0.25em 1em;
 }
 
-.header-top .right ul ul li.current a {
+:where(.header-top, .thetop-nav) .right ul ul li.current a {
 	background-color: var(--border-color);
 }
 
@@ -310,6 +310,7 @@ header-nav*/
 	font-size: 1.75em;
 	position: relative;
 	font-weight: var(--fw8);
+	display: flex;
 	padding-left: 0.75em;
 	margin-right: 2em;
 }
@@ -318,18 +319,18 @@ header-nav*/
 	position: absolute;
 	top: -15px;
 	left: 0;
-	width: 30px;
-	height: 30px;
+	width: 38px;
+	height: 38px;
 	border-radius: var(--percent50);
 	background-color: var(--light-bg-color);
-	z-index: 1;
+	z-index: -1;
 }
 
 .circle::before {
 	content: "";
 	position: absolute;
-	width: 20px;
-	height: 20px;
+	width: 28px;
+	height: 28px;
 	border-radius: var(--percent50);
 	background-color: var(--secondary-color);
 	bottom: 5px;
@@ -372,7 +373,7 @@ nav .fly-item {
 
 .header-nav .right .fly-item {
 	top: 0;
-	right: 30px;
+	right: 16px;
 	width: 16px;
 	background-color: var(--secondary-dark-color);
 	border-radius: var(--percent50);
@@ -430,6 +431,14 @@ header-main department category*/
 	align-items: center;
 }
 
+.dpt-menu .has-child:hover ul {
+	display: block;
+}
+
+.dpt-menu .has-child li a:hover {
+	text-decoration: underline;
+}
+
 
 
 /*Header 
@@ -475,12 +484,201 @@ form.search button {
 
 form.search button:hover {
 	background-color: var(--dark-color);
+}
 
+/*Header 
+Responsive menu off-canvas*/
+.site-off {
+	position: fixed;
+	width: 320px;
+	height: var(--percent100);
+	background-color: var(--white-color);
+	overflow-y: auto;
+	z-index: 1000;
+
+	transform: translate(100%);
+	visibility: hidden;
+	transition: transform .4s visibility .4s;
+	will-change: tranform, visibility;
+}
+
+.showmenu .site-off {
+	transform: translateX(0);
+	visibility: visible;
+	transform: transform .4s 0s, visibility 0s 0s;
+}
+
+.off-canvas {
+	width: var(--percent100);
+	height: var(--percent100);
+	touch-action: auto;
+	padding: 1.5em;
+}
+
+.off-canvas .canvas-head {
+	color: var(--white-color);
+	justify-content: space-between;
+	padding: 1.5em;
+	margin: -1.5em -1.5em 1.5em;
+	background-color: var(--secondary-dark-color);
+	border-bottom-right-radius: 160px 25px;
+}
+
+.off-canvas .canvas-head .logo {
+	z-index: 10;
+	position: relative;
+}
+
+.off-canvas .canvas-head .logo .circle {
+	opacity: .75;
+}
+
+.t-close {
+	font-size: 1.25em;
+	width: 32px;
+	height: 32px;
+	border-radius: var(--percent50);
+	background-color: var(--secondary-dark-color);
+	color: var(--white-color);
+	transition: var(--trans-background-color);
+}
+
+.t-close:hover {
+	background-color: var(--white-color);
+	color: var(--secondary-dark-color);
+	opacity: .75;
+}
+
+.off-canvas .dpt-head {
+	font-size: var(--font-small);
+	padding: 1em;
+	margin-bottom: 1em;
+	text-align: center;
+	background-color: var(--light-bg-color);
+	border-radius: 7px 7px 0 0;
+}
+
+.off-canvas .has-child :where(ul, .mega) {
+	font-size: var(--font-small);
+	font-weight: var(--fw3);
+	line-height: 26px;
+	padding-left: 3em;
+
+	height: auto;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.off-canvas .expand :where(ul, .mega) {
+	max-height: 200px;
+}
+
+.off-canvas .thetop-nav ul, .off-canvas nav > ul {
+	flex-direction: column;
+	align-items: flex-start;
+	font-size: var(--font-small);
+	line-height: 36px;
+	padding-top: 1.25em;
+	margin: 1.25em 0;
+	border-top: 1px solid var(--border-color);
+}
+
+.off-canvas nav .mega {
+	padding: 0;
+}
+
+.off-canvas nav .mega .products {
+	display: none;
+}
+
+.off-canvas .has-child .icon-small {
+	padding: 0.5em;
+	line-height: initial;
+}
+
+.off-canvas .dpt-menu .icon-small, i {
+	transform: rotate(90deg);
+}
+
+.off-canvas .has-child {
+	width: var(--percent100);
+}
+
+.off-canvas .thetop-nav .right > ul > :where(:nth-child(4), li:nth-child(5)) > a {
+	display: none;
+}
+
+.off-canvas .thetop-nav .right > ul > ul {
+	display: flex;
+	flex-direction: row;
+}
+
+.off-canvas .thetop-nav .right > ul > ul > li > a {
+	padding: 0.5em;
+	border: 1px solid var(--border-color);
+	line-height: 16px;
+	margin: 0 0.5em 5em 0;
+}
+
+
+
+/*02.Sliders*/
+.slider > div > .wrapper {
+	width: calc(100% - (300px + 2em));
+	margin-left: auto;
+}
+
+.slider .item {
+	position: absolute;
+	height: 474px;
+}
+
+.slider .text-content {
+	position: relative;
+	height: var(--percent100);
+	justify-content: flex-end;
+	padding: 0 0 10% 10%;
+	z-index: 1;
+}
+
+.slider h4 {
+	font-size: var(--font-small);
+	font-weight: var(--fw7);
+	width: fit-content;
+	padding: 4px 10px;
+	background-color: var(--dark-color);
+	color: var(--white-color);
+	border-radius: 4px;
+}
+
+.text-content :where(h2, h3) span:first-child {
+	font-weight: var(--fw3);
+	columns: var(--light-text-color);
+}
+
+.text-content :where(h2, h3) span:last-child {
+	color: var(--secondary-dark-color);
+	text-transform: uppercase;
+	letter-spacing: -1px;
 }
 
 
 
 
+
+/*03. Brands*/
+
+
+
+
+/*04.Product BLock sytle*/
+
+
+
+
+	/*04. Product 
+	a. Global product*/
 
 
 /*Responsive*/
@@ -627,9 +825,54 @@ form.search button:hover {
 		font-size: var(--font-small);
 		line-height: 2.5em;
 		border: 1px solid var(--border-color);
+		border-top: 0;
+		display: none;
+		background-position: right bottom;
+		background-repeat: no-repeat;
+		background-size: auto;
 	}
 
-	
+	/*Showing the first sub menu*/
+	.dpt-menu .mega {
+		display: block;
+	}
+
+	.dpt-menu .beauty ul {
+		background-image: url(assets/menu/menu_bg1.jpg);
+	}
+
+	.dpt-menu .electric ul {
+		background-image: url(assets/menu/menu_bg2.jpg);
+	}
+
+	.dpt-menu .fashion ul {
+		background-image: url(assets/menu/menu_bg3.jpg);
+	}
+
+	.dpt-menu .homekit .mega {
+		background-image: url(assets/menu/menu_bg4.jpg);
+	}
+
+	.dpt-menu .has-child > :where(ul,.mega)::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(90deg, rgba(225, 225, 225, 1)0%, rgba(225, 225, 225, 1.0));
+	}
+
+	.dpt-menu .mega {
+		width: auto;
+		min-width: var(--percent100);
+	}
+
+	.dpt-menu .has-child:hover .mega {
+		display: flex;
+	}
+
+
 }
 
 
